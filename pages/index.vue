@@ -1,7 +1,8 @@
 <template>
     <div class="posts p-40 grid grid-cols-4 gap-4">
         <NuxtLink
-            to="/post"
+            :to="`/posts/${post.id}`"
+            :params="{ title: post.title, id: post.id, body: post.body }"
             v-for="post in postsStore.posts"
             :key="post.id">
             <div
