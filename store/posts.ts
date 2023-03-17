@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const usePostsStore = defineStore('users', () => {
+export const usePostsStore = defineStore('posts', () => {
     let posts = ref([] as Record<string, any>[])
     const fetchPosts = async () => {
         const { data }: any = await useFetch(

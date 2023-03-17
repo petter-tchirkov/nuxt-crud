@@ -1,9 +1,10 @@
 <template>
-    <div>
-        <div class="post__create">
+    <div class="flex flex-col justify-center pt-4">
+        <div
+            class="post__create p-4 border border-cyan-400 rounded-xl text-center mb-16">
             <NuxtLink to="/posts/create">Create Post</NuxtLink>
         </div>
-        <div class="posts p-40 grid grid-cols-4 gap-4">
+        <div class="posts pt-40 px-4 grid gap-4">
             <NuxtLink
                 :to="`/posts/${post.id}`"
                 :params="{ title: post.title, id: post.id, body: post.body }"
