@@ -2,18 +2,19 @@ import { IPost } from './../types/post'
 import { defineStore } from 'pinia'
 
 export const usePostsStore = defineStore('posts', () => {
-    let posts = ref([] as Record<string, any>[])
+    let posts = ref([] as IPost[])
     const fetchPosts = async () => {
-        const { data }: any = await useFetch(
+        const { data } = await useFetch(
             'https://jsonplaceholder.typicode.com/posts'
         )
         if (data.value) {
-            posts.value = data.value
+            posts.value = data.value as IPost[]
+            console.log(typeof data.value, data.value)
         }
     }
 
     const createPost = async (newPost: IPost) => {
-        const { data }: any = await useFetch(
+        const { data } = await useFetch(
             'https://jsonplaceholder.typicode.com/posts',
             {
                 method: 'POST',
@@ -24,8 +25,8 @@ export const usePostsStore = defineStore('posts', () => {
             }
         )
         if (data.value) {
-            posts.value.push(data.value)
             console.log(data.value)
+            posts.value.push(data.value as IPost)
         }
     }
 
@@ -42,5 +43,24 @@ export const usePostsStore = defineStore('posts', () => {
         }
     }
 
-    return { posts, fetchPosts, createPost, deletePost }
+    const editPost = async (editedPost: IPost) => {
+        const { data }: any = await useFetch(
+            `https://jsonplaceholder.typicode.com/posts/${editedPost.id}`,
+            {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    title: editedPost.title,
+                    body: editedPost.body,
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            }
+        )
+        if (data.value) {
+            console.log(data.value)
+        }
+    }
+
+    return { posts, fetchPosts, createPost, deletePost, editPost }
 })
