@@ -1,9 +1,8 @@
 <template>
     <div class="flex flex-col justify-center pt-4">
-        <div
-            class="post__create p-4 border border-cyan-400 rounded-xl text-center mb-16">
-            <NuxtLink to="/posts/create">Create Post</NuxtLink>
-        </div>
+        <NuxtLink to="/posts/create">
+            <Button label="Create Post" />
+        </NuxtLink>
         <div class="posts pt-40 px-4 grid gap-4">
             <NuxtLink
                 :to="`/posts/${post.id}`"
@@ -18,6 +17,10 @@
                     }}</h2>
                     <p class="post__body text-center">{{ post.body }}</p>
                     <div class="post__btns"> </div>
+                    <Button
+                        :label="`Delete post ${post.id}`"
+                        @click.prevent.stop="postsStore.deletePost(post.id)"
+                        size="small" />
                 </div>
             </NuxtLink>
         </div>
