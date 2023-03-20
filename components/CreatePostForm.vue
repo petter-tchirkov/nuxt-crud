@@ -28,14 +28,14 @@ await postsStore.fetchPosts()
 const titleInput = ref('')
 const bodyInput = ref('')
 
-const initializeCreatePost = () => {
+const initializeCreatePost = async () => {
     const newPost: IPost = {
         title: titleInput.value,
         body: bodyInput.value,
-        id: postsStore.posts.length++,
+        id: postsStore.posts.length + 1,
         userId: postsStore.posts.length,
     }
-    postsStore.createPost(newPost)
+    await postsStore.createPost(newPost)
 }
 </script>
 

@@ -1,15 +1,16 @@
 import { IPost } from './../types/post'
+import { useNotification } from '@kyvg/vue3-notification'
 import { defineStore } from 'pinia'
 
 export const usePostsStore = defineStore('posts', () => {
     let posts = ref([] as IPost[])
+    const { notify } = useNotification()
     const fetchPosts = async () => {
         const { data } = await useFetch(
             'https://jsonplaceholder.typicode.com/posts'
         )
         if (data.value) {
             posts.value = data.value as IPost[]
-            console.log(typeof data.value, data.value)
         }
     }
 
@@ -18,15 +19,19 @@ export const usePostsStore = defineStore('posts', () => {
             'https://jsonplaceholder.typicode.com/posts',
             {
                 method: 'POST',
-                body: JSON.stringify(newPost),
+                body: newPost,
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                 },
             }
         )
         if (data.value) {
-            console.log(data.value)
             posts.value.push(data.value as IPost)
+            notify({
+                title: 'Success',
+                text: 'Post Created',
+                type: 'success',
+            })
         }
     }
 
@@ -39,7 +44,13 @@ export const usePostsStore = defineStore('posts', () => {
         )
         if (data.value) {
             posts.value.splice(post - 1, 1)
-            console.log(`psot #${post} was deleted`)
+            setTimeout(() => {
+                notify({
+                    title: 'Success',
+                    text: 'Post Removed',
+                    type: 'success',
+                })
+            }, 1000)
         }
     }
 
@@ -48,17 +59,24 @@ export const usePostsStore = defineStore('posts', () => {
             `https://jsonplaceholder.typicode.com/posts/${editedPost.id}`,
             {
                 method: 'PATCH',
-                body: JSON.stringify({
+                body: {
                     title: editedPost.title,
                     body: editedPost.body,
-                }),
+                },
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
                 },
             }
         )
         if (data.value) {
-            console.log(data.value)
+            posts.value[editedPost.id - 1] = editedPost
+            setTimeout(() => {
+                notify({
+                    title: 'Success',
+                    text: 'Post Edited',
+                    type: 'success',
+                })
+            }, 1000)
         }
     }
 

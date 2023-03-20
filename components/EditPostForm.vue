@@ -35,6 +35,7 @@ const initializeEditPost = () => {
         id: props.post as number,
         userId: props.post as number,
     }
+    console.log(editedPost)
     postsStore.editPost(editedPost)
 }
 </script>
