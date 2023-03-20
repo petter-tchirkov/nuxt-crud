@@ -10,6 +10,12 @@ export const usePostsStore = defineStore('posts', () => {
             'https://jsonplaceholder.typicode.com/posts'
         )
         if (data.value) {
+            posts.value.map((post) => {
+                post.date = useDateFormat(
+                    Math.floor(Math.random() * Date.now()),
+                    'YYYY.MM.DD'
+                ) as any
+            })
             posts.value = data.value as IPost[]
         }
     }

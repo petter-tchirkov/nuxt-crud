@@ -49,6 +49,9 @@
                         <td class="text-xs border-r-2 border-r-blue-600"
                             >{{ post?.body }}
                         </td>
+                        <td class="text-xs border-r-2 border-r-blue-600">{{
+                            post?.date
+                        }}</td>
                         <td
                             ><Button
                                 label="delete"
@@ -73,7 +76,7 @@ import { IPost } from '~~/types/post'
 const postsStore = usePostsStore()
 const router = useRouter()
 const createModalShown = ref(false)
-const tableHeads = ['id', 'title', 'body', 'actions']
+const tableHeads = ['id', 'title', 'body', 'date', 'actions']
 
 let usersPerPage = 10
 let pageNumber = 1

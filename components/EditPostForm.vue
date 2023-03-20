@@ -34,6 +34,7 @@ const initializeEditPost = () => {
         body: bodyInput.value,
         id: props.post as number,
         userId: props.post as number,
+        date: useDateFormat(useNow(), 'YYYY.MM.DD') as any,
     }
     postsStore.editPost(editedPost)
 }
