@@ -9,6 +9,7 @@
                 v-show="createModalShown" />
             <input
                 type="text"
+                v-model="search"
                 class="border-2 border-blue-600 rounded p-2"
                 placeholder="Search" />
             <div class="pagination flex gap-4 justify-center">
@@ -32,7 +33,7 @@
                 </thead>
                 <tbody>
                     <tr
-                        v-for="post in paginatedPosts as IPost[]"
+                        v-for="post in filteredPosts as IPost[]"
                         :key="post?.id"
                         class="cursor-pointer border-b-2 border-b-blue-600 hover:border-b-blue-300 transition-all"
                         @click="redirect(post.id)">
@@ -86,6 +87,13 @@ const pageClick = (page: number) => {
     pageNumber = page
     refreshNuxtData()
 }
+
+const search = ref('')
+const filteredPosts = computed(() => {
+    return paginatedPosts.value.filter((post) => {
+        return post.title.toLowerCase().indexOf(search.value.toLowerCase()) > -1
+    })
+})
 
 const { data } = await useAsyncData('posts', async () => {
     await postsStore.fetchPosts()
